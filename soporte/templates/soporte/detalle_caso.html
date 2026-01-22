@@ -1,0 +1,94 @@
+{% extends 'soporte/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                Información del Caso #{{ caso.id }}
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">{{ caso.titulo }}</h4>
+                <p class="card-text">{{ caso.descripcion }}</p>
+                <hr>
+                <p><strong>Cliente:</strong> {{ caso.cliente.username }}</p>
+                <p><strong>Estado:</strong> {{ caso.get_estado_display }}</p>
+                <p><strong>Fecha:</strong> {{ caso.fecha_creacion|date:"d M Y" }}</p>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            {% if user.is_staff and caso.estado == 'ABIERTO' %}
+                
+                <div class="d-grid gap-2">
+                    <a href="{% url 'crear_intervencion' %}" class="btn btn-success">
+                        Registrar Nueva Intervención
+                    </a>
+        
+                    <a href="{% url 'cerrar_caso' caso.id %}" 
+                       class="btn btn-danger"
+                       onclick="return confirm('¿Estás seguro de que quieres cerrar este caso? No se podrán agregar más intervenciones.');">
+                        Cerrar Caso Definitivamente
+                    </a>
+                </div>
+        
+            {% elif caso.estado == 'CERRADO' %}
+                <div class="alert alert-secondary text-center">
+                    🔒 Este caso está cerrado.
+                </div>
+            {% endif %}
+        </div><div class="col-md-4">
+            {% if user.is_staff and caso.estado == 'ABIERTO' %}
+                
+                <div class="d-grid gap-2">
+                    <a href="{% url 'crear_intervencion' %}" class="btn btn-success">
+                        Registrar Nueva Intervención
+                    </a>
+        
+                    <a href="{% url 'cerrar_caso' caso.id %}" 
+                       class="btn btn-danger"
+                       onclick="return confirm('¿Estás seguro de que quieres cerrar este caso? No se podrán agregar más intervenciones.');">
+                        Cerrar Caso Definitivamente
+                    </a>
+                </div>
+        
+            {% elif caso.estado == 'CERRADO' %}
+                <div class="alert alert-secondary text-center">
+                    🔒 Este caso está cerrado.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <h3>Historial de Intervenciones</h3>
+        
+        {% for intervencion in caso.intervenciones.all %}
+            <div class="card mb-3 border-start border-4 border-info">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title text-info">Técnico: {{ intervencion.tecnico.username }}</h5>
+                        <small class="text-muted">{{ intervencion.fecha|date:"d/m/Y H:i" }}</small>
+                    </div>
+                    <p class="card-text">{{ intervencion.notas }}</p>
+                    
+                    {% if intervencion.tareas.exists %}
+                        <div class="bg-light p-2 rounded">
+                            <h6>Tareas realizadas:</h6>
+                            <ul class="mb-0">
+                                {% for tarea in intervencion.tareas.all %}
+                                    <li>{{ tarea.descripcion }} (${{ tarea.costo }})</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <div class="alert alert-warning">
+                Aún no hay intervenciones técnicas registradas en este caso.
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
