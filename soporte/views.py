@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
+from django.contrib.auth.forms import UserCreationForm
 from .forms import CasoForm
 
 # Listar Casos (Con restricción de visibilidad)
@@ -90,3 +91,9 @@ def cerrar_caso(request, pk):
         caso.save()
         
     return redirect('detalle_caso', pk=pk)
+
+
+class SignUpView(CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')  # Al registrarse, lo mandamos al login
+    template_name = 'registration/signup.html'
