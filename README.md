@@ -33,14 +33,14 @@ Guía rápida para levantar el proyecto de Gestión de Incidencias con Django y 
 ## Configuración de Base de Datos
 El proyecto requiere una base de datos MySQL llamada soporte_db (o el nombre que elijas). Asegúrate de que las credenciales en settings.py coincidan con tu configuración local:
 
-DATABASES = {
+ `DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'soporte_db',  # Crea esta base de datos en tu MySQL
         'USER': 'root',        # Tu usuario
         'PASSWORD': '',        # Tu contraseña
     }
-}
+} `
 
 ## Configuracion Inicial (Roles)
 Para que el sistema de permisos funcione correctamente, debes configurar el grupo de soporte:
