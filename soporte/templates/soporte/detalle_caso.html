@@ -34,27 +34,7 @@
         
             {% elif caso.estado == 'CERRADO' %}
                 <div class="alert alert-secondary text-center">
-                    🔒 Este caso está cerrado.
-                </div>
-            {% endif %}
-        </div><div class="col-md-4">
-            {% if user.is_staff and caso.estado == 'ABIERTO' %}
-                
-                <div class="d-grid gap-2">
-                    <a href="{% url 'crear_intervencion' %}" class="btn btn-success">
-                        Registrar Nueva Intervención
-                    </a>
-        
-                    <a href="{% url 'cerrar_caso' caso.id %}" 
-                       class="btn btn-danger"
-                       onclick="return confirm('¿Estás seguro de que quieres cerrar este caso? No se podrán agregar más intervenciones.');">
-                        Cerrar Caso Definitivamente
-                    </a>
-                </div>
-        
-            {% elif caso.estado == 'CERRADO' %}
-                <div class="alert alert-secondary text-center">
-                    🔒 Este caso está cerrado.
+                    Este caso está cerrado.
                 </div>
             {% endif %}
         </div>
